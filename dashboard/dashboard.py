@@ -16,7 +16,20 @@ bikesharing_df = pd.read_csv("dashboard/bikesharing.csv")
 
 # Setup
 st.set_option('deprecation.showPyplotGlobalUse', False)
-locale.setlocale(locale.LC_NUMERIC, 'en_US.UTF-8')
+
+st.cache(allow_output_mutation=True)
+def set_locale():
+    try:
+        locale.setlocale(locale.LC_NUMERIC, 'en_US.UTF-8')
+    except locale.Error as e:
+        print("Kesalahan saat mengatur locale:", e)
+        print("Menggunakan locale default sistem.")
+        locale.setlocale(locale.LC_NUMERIC, '')
+
+# Panggil fungsi set_locale() di awal aplikasi
+set_locale()
+
+#locale.setlocale(locale.LC_NUMERIC, 'en_US.UTF-8')
 
 # Mengonversi tipe data kolom 'dteday'
 bikesharing_df['dteday'] = pd.to_datetime(bikesharing_df['dteday'])
